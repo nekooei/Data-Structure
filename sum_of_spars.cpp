@@ -4,7 +4,6 @@
  *  our main goal is to show you a abstract view of spars_matrix
  *  author : Navid kalaei <navidkalaei@gmail.com>
  *  modified by : Milad nekooei <mi.nekooei@gmail.com>
- *  Date : 11 / 9 / 2015
  */
 
 #include <iostream>

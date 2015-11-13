@@ -170,32 +170,30 @@ int get_sharing_len(struct Spars matrix1, struct Spars matrix2)
 {
     int sharing_len = 0;
     int i = 0, j = 0;
+    int cmp = 0;
 
     while((i < matrix1.header[2]) or (j < matrix2.header[2])){
-        if(matrix1.matrix[i][0] < matrix2.matrix[j][0]){
+        cmp = cmp_coordinates(matrix1.matrix[i], matrix2.matrix[j])
+        if(cmp == -1){
             i++;
         }
-        else if(matrix2.matrix[j][0] < matrix1.matrix[i][0]){
+        else if(cmp == 1){
             j++;
         }
-        else {
-            if(matrix1.matrix[i][1] < matrix2.matrix[j][1]){
-                i++;
-            }
-            else if(matrix2.matrix[j][1] < matrix1.matrix[i][1]){
-                j++;
-            }
-            else{
-                i++;
-                j++;
-                sharing_len++;
-            }
+        else{
+            i++;
+            j++;
+            sharing_len++;
         }
     }
 
     return sharing_len;
 }
 
+struct Spars add_spars(struct Spars matrix1, struct Spars matrix2)
+{
+
+}
 
 int main(){
 

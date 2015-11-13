@@ -9,6 +9,7 @@
 #include <iostream>
 
 #define nDashes 15          // This Macro define for number of dashes in single line
+///milad columns ma'ni sotoon ha mide dar soorati k inja karbordesh te'dade setoon hast.  pishnahade man ine bezari nCols.  agar editaye badish ham anjam bedi mamnoon misham
 #define columns 3          // all of spars_matrix have 3 columns
 
 using namespace std;
@@ -91,7 +92,7 @@ struct Spars init_spars()
     return spars_matrix;
 }
 
-void bubble_sort_matrix_helper(struct Spars & spars_matrix, string sort_by){
+void bubble_sort_matrix_helper(struct Spars spars_matrix, string sort_by){
 
     /*
      * gets a spars matrix, sort its matrix by X scale (spars_matrix[0])
@@ -133,7 +134,7 @@ void bubble_sort_matrix_helper(struct Spars & spars_matrix, string sort_by){
 }
 
 
-void bubble_sort_matrix(struct Spars & spars_matrix)
+void bubble_sort_matrix(struct Spars spars_matrix)
 {
     cout << "Sorting Matrix!" << endl << endl;
     bubble_sort_matrix_helper(spars_matrix, "col");
@@ -166,14 +167,14 @@ int cmp_coordinates(int * coordinate1, int * coordinate2)
     }
 }
 
-int get_sharing_len(struct Spars matrix1, struct Spars matrix2)
+int get_shared_len(struct Spars spars_matrix1, struct Spars spars_matrix2)
 {
-    int sharing_len = 0;
+    int shared_len = 0;
     int i = 0, j = 0;
     int cmp = 0;
 
-    while((i < matrix1.header[2]) or (j < matrix2.header[2])){
-        cmp = cmp_coordinates(matrix1.matrix[i], matrix2.matrix[j])
+    while((i < spars_matrix1.header[2]) and (j < spars_matrix2.header[2])){
+        cmp = cmp_coordinates(spars_matrix1.matrix[i], spars_matrix2.matrix[j]);
         if(cmp == -1){
             i++;
         }
@@ -183,16 +184,64 @@ int get_sharing_len(struct Spars matrix1, struct Spars matrix2)
         else{
             i++;
             j++;
-            sharing_len++;
+            shared_len++;
         }
     }
 
-    return sharing_len;
+    return shared_len;
 }
 
-struct Spars add_spars(struct Spars matrix1, struct Spars matrix2)
+void copy_coordinate(int * src, int * dest)
 {
+    dest[0] =  src[0];
+    dest[1] =  src[1];
+    dest[2] =  src[2];
+}
 
+struct Spars add_spars(struct Spars spars_matrix1, struct Spars spars_matrix2)
+{
+    bubble_sort_matrix(spars_matrix1);
+    //print_matrix(spars_matrix1);
+    bubble_sort_matrix(spars_matrix2);
+    //print_matrix(spars_matrix2);
+
+    struct Spars SOSpars;   //sum of spars.
+
+    if((spars_matrix1.header[0] != spars_matrix2.header[0]) or (spars_matrix1.header[1] != spars_matrix2.header[1])){
+        cout << "Input Error: The matrises are not in the same size.";
+        exit(0);
+    }
+
+    SOSpars.header[0] = spars_matrix1.header[0];
+    SOSpars.header[1] = spars_matrix1.header[1];
+    int nRows = spars_matrix1.header[2] + spars_matrix2.header[2] - get_shared_len(spars_matrix1, spars_matrix2);
+    SOSpars.header[2] = nRows;
+    SOSpars.matrix = new int * [nRows];
+
+    int i = 0, j = 0, k = 0;
+    int cmp = 0;
+
+    for(k = 0; k != nRows; k++){
+        SOSpars.matrix[k] = new int [3];
+        cmp = cmp_coordinates(spars_matrix1.matrix[i], spars_matrix2.matrix[j]);
+        if(cmp == -1){
+            copy_coordinate(SOSpars.matrix[k], spars_matrix1.matrix[i]);
+            i++;
+        }
+        else if(cmp == 1){
+            copy_coordinate(SOSpars.matrix[k], spars_matrix2.matrix[j]);
+            j++;
+        }
+        else{
+            copy_coordinate(SOSpars.matrix[k], spars_matrix1.matrix[i]);
+            SOSpars.matrix[k][2] += spars_matrix2.matrix[j][2];
+            i++;
+            j++;
+        }
+        k++;
+    }
+
+    return SOSpars;
 }
 
 int main(){
@@ -205,12 +254,8 @@ int main(){
     spars_matrix2 = init_spars();
     print_matrix(spars_matrix2);
 
-    bubble_sort_matrix(spars_matrix1);
-    print_matrix(spars_matrix1);
-    bubble_sort_matrix(spars_matrix2);
-    print_matrix(spars_matrix2);
-    print_seperator();
-
+    struct Spars SOSpars = add_spars(spars_matrix1, spars_matrix2);
+    print_matrix(SOSpars);
 
     return 0;
 }

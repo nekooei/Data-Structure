@@ -142,15 +142,29 @@ void bubble_sort_matrix(struct Spars & spars_matrix)
     print_seperator();
 }
 
-/*
-bool are_same_points(int * coordinate1, int * coordinate2){
-    if((coordinate1[0] == coordinate2[0]) and
-       (coordinate1[1] == coordinate2[1])){
-       return true;
-       }
-    return false;
+int cmp_coordinates(int * coordinate1, int * coordinate2)
+{
+    //if coordinate1 < coordinate2 : return -1
+    //else if coordinate2 < coordinate1 : return 1
+    //else : return 0
+    if(coordinate1[0] < coordinate2[0]){
+        return -1;
+    }
+    else if(coordinate2[0] < coordinate1[0]){
+        return 1;
+    }
+    else{
+        if(coordinate1[1] < coordinate2[1]){
+            return -1;
+        }
+        else if(coordinate2[1] < coordinate1[1]){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
 }
-*/
 
 int get_sharing_len(struct Spars matrix1, struct Spars matrix2)
 {

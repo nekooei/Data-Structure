@@ -50,25 +50,6 @@ void print_matrix(struct Spars spars_matrix){
     print_seperator();
 }
 
-void print_matrix(struct Spars * spars_matrix){
-    cout << "printing spars matrix!" << endl << endl;
-
-    int nRows = spars_matrix->header[2];
-
-    int i=0, j=0;
-
-    for(i = 0; i < nRows; i++){
-        for(j = 0; j < 3; j++){
-            cout << spars_matrix->matrix[i][j] << '\t';
-        }
-        cout << endl;
-    }
-
-    cout << endl << endl;
-    cout << "matrix printed!";
-    print_seperator();
-}
-
 struct Spars init_spars()
 {
     cout << "initing spars matrix!" << endl << endl;
@@ -111,7 +92,7 @@ struct Spars init_spars()
     return spars_matrix;
 }
 
-void bubble_sort_matrix_helper(struct Spars & spars_matrix){
+void bubble_sort_matrix_helper(struct Spars & spars_matrix, string sort_by){
 
     /*
      * gets a spars matrix, sort its matrix by X scale (spars_matrix[0])
@@ -121,9 +102,11 @@ void bubble_sort_matrix_helper(struct Spars & spars_matrix){
     int index = 0;
     if (sort_by == "row"){
         index = 0;
+        cout << "Matrix is going to be sorted by row." << endl;
     }
     else if(sort_by == "col"){
         index = 1;
+        cout << "Matrix is going to be sorted by column." << endl;
     }
     else{
         cout << "Sort Option Error: 2D matrises can only be sorted by row or column" << endl;
@@ -132,7 +115,6 @@ void bubble_sort_matrix_helper(struct Spars & spars_matrix){
     }
 
     int nRows = spars_matrix.header[2];
-    int nCols = 3;  //for being spars;
 
     int i, j;
     int  * temp; // = new int[nCols]; //to store rows
@@ -147,13 +129,18 @@ void bubble_sort_matrix_helper(struct Spars & spars_matrix){
         }
     }
 
+    cout << "Sorting finised" << endl;
+    cout << endl;
 }
 
 
 void bubble_sort_matrix(struct Spars & spars_matrix)
 {
-    bubble_sort_matrix_helper(spars_matrix, "row");
+    cout << "Sorting Matrix!" << endl << endl;
     bubble_sort_matrix_helper(spars_matrix, "col");
+    bubble_sort_matrix_helper(spars_matrix, "row");
+    cout << "Matrix sorted by column and row." << endl;
+    print_seperator();
 }
 
 
@@ -168,19 +155,12 @@ int main(){
     spars_matrix2 = init_spars();
     print_matrix(spars_matrix2);
 
-    bubble_sort_matrix(spars_matrix1, "row");
+    bubble_sort_matrix(spars_matrix1);
     print_matrix(spars_matrix1);
-    bubble_sort_matrix(spars_matrix2, "row");
+    bubble_sort_matrix(spars_matrix2);
     print_matrix(spars_matrix2);
     print_seperator();
 
-    /*
-    bubble_sort_matrix(spars_matrix1, "col");
-    print_matrix(spars_matrix1);
-    bubble_sort_matrix(spars_matrix2, "col");
-    print_matrix(spars_matrix2);
-    print_seperator();
-    */
 
     return 0;
 }

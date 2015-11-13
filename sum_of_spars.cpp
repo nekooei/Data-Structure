@@ -134,51 +134,6 @@ void bubble_sort_matrix(struct Spars & spars_matrix){
     }
 }
 
-int find_sharing (struct Spars matrix1 , struct Spars matrix2){
-    int shared= 0;
-    for (int i = 0 ; i < matrix1.header[2]; i++){
-        for(int j = 0 ; j < matrix1.header[2] ; j++){
-            if(matrix1.matrix[i][0] == matrix2.matrix[j][0]
-            && matrix1.matrix[i][1] == matrix2.matrix[j][1]){
-                shared +=1;
-            }
-        }
-    }
-    return shared;
-}
-
-bool CanISet(int i , int j,int len,struct Spars res){
-    for(int k = 0 ; k < len ; k++){
-        if(res.matrix[k][0] == i && res.matrix[k][1] == j){
-            return false;
-            }
-    }
-    return true;
-}
-
-void add_Spars (struct Spars operand1 , struct Spars operand2 , struct Spars & result){
-//    struct Spars * result ;
-    int shared ;
-    if((operand1.header[0] == operand2.header[0])
-        &&(operand1.header[1] == operand2.header[1])){
-        //start initilizing and memory allocationg for result matrix
-  //      result = new struct Spars();
-        result.header[0] = operand1.header[0];
-        result.header[1] = operand1.header[1];
-        shared = find_sharing(operand1,operand2);
-        cout<<"\n shared : "<<shared;
-        int newCountValue = (operand1.header[2] + operand2.header[2]) - shared;
-        cout<<"\n new count: "<<newCountValue;
-        result.header[2] = newCountValue;
-
-        result.matrix = new int * [newCountValue];
-        for(int i = 0 ; i < newCountValue ; i++){
-            result.matrix[i] = new int[columns];
-        }
-        // end of initilizing and memory allocationg
-
-    }
-}
 
 int main(){
     int i, j;

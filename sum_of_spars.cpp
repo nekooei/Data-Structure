@@ -10,7 +10,7 @@
 #include <iostream>
 
 #define nDashes 15          // This Macro define for number of dashes in single line
-#define columns 3           // all of spars_matrix have 3 columns
+#define columns 3          // all of spars_matrix have 3 columns
 
 using namespace std;
 
@@ -110,12 +110,25 @@ struct Spars init_spars()
     return spars_matrix;
 }
 
-void bubble_sort_matrix(struct Spars & spars_matrix){
+void bubble_sort_matrix(struct Spars & spars_matrix, string sort_by){
 
     /*
      * gets a spars matrix, sort its matrix by X scale (spars_matrix[0])
      * nothing returns, it's call by refrence.
      */
+
+    int index = 0;
+    if (sort_by == "row"){
+        index = 0;
+    }
+    else if(sort_by == "col"){
+        index = 1;
+    }
+    else{
+        cout << "Sort Option Error: 2D matrises can only be sorted by row or column" << endl;
+        index = 0;
+        cout << "Matrises are going to be sorted by row";
+    }
 
     int nRows = spars_matrix.header[2];
     int nCols = 3;  //for being spars;
@@ -125,14 +138,16 @@ void bubble_sort_matrix(struct Spars & spars_matrix){
 
     for(i = 0; i < nRows; i++){
         for(j = 0; j < nRows - i -1; j++){
-            if(spars_matrix.matrix[j][0] > spars_matrix.matrix[j+1][0]){
+            if(spars_matrix.matrix[j][index] > spars_matrix.matrix[j+1][index]){
                 temp = spars_matrix.matrix[j];
                 spars_matrix.matrix[j] = spars_matrix.matrix[j+1];
                 spars_matrix.matrix[j+1] = temp;
             }
         }
     }
+
 }
+
 
 
 int main(){
@@ -143,15 +158,15 @@ int main(){
     spars_matrix1 = init_spars();
     spars_matrix2 = init_spars();
 
-    bubble_sort_matrix(spars_matrix1);
-    bubble_sort_matrix(spars_matrix2);
-    struct Spars res;
-    add_Spars(spars_matrix1,spars_matrix2,res);
-    print_seperator();
     print_matrix(spars_matrix1);
     print_matrix(spars_matrix2);
     print_seperator();
-    print_matrix(res);
+
+    bubble_sort_matrix(spars_matrix1);
+    print_matrix(spars_matrix1);
+    bubble_sort_matrix(spars_matrix2);
+    print_matrix(spars_matrix2);
+    print_seperator();
 
     return 0;
 }

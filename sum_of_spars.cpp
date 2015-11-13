@@ -75,16 +75,13 @@ struct Spars init_spars()
     struct Spars spars_matrix;
     int i=0, j=0;
 
-    cout << "enter number of original rows: " << endl;
+    cout << "enter number of original rows: ";
     cin >> spars_matrix.header[0];
-    cout << endl;
 
-    cout << "enter number of original cols: " << endl;
+    cout << "enter number of original cols: ";
     cin >> spars_matrix.header[1];
-    cout << endl;
 
-    cout << "How many numbers are there? " << endl;
-
+    cout << "How many numbers are there? ";
     int nRows = 0;
     cin >> nRows;
     spars_matrix.header[2] = nRows;
@@ -100,17 +97,21 @@ struct Spars init_spars()
     // here we get other values from user
     // i is a counter that count rows of spars_matrix
     for (int i = 0 ; i < nRows ; i++){
-        cout<<"please enter i : ";
-        cin>>spars_matrix.matrix[i][0];
-        cout<<"please enter j : ";
-        cin>>spars_matrix.matrix[i][1];
-        cout<<"please enter value : ";
-        cin>>spars_matrix.matrix[i][2];
+        cout << "please enter i : ";
+        cin >> spars_matrix.matrix[i][0];
+        cout << "please enter j : ";
+        cin >> spars_matrix.matrix[i][1];
+        cout << "please enter value : ";
+        cin >> spars_matrix.matrix[i][2];
+        cout << endl;
     }
+
+    print_seperator();
+
     return spars_matrix;
 }
 
-void bubble_sort_matrix(struct Spars & spars_matrix, string sort_by){
+void bubble_sort_matrix_helper(struct Spars & spars_matrix){
 
     /*
      * gets a spars matrix, sort its matrix by X scale (spars_matrix[0])
@@ -149,6 +150,12 @@ void bubble_sort_matrix(struct Spars & spars_matrix, string sort_by){
 }
 
 
+void bubble_sort_matrix(struct Spars & spars_matrix)
+{
+    bubble_sort_matrix_helper(spars_matrix, "row");
+    bubble_sort_matrix_helper(spars_matrix, "col");
+}
+
 
 int main(){
     int i, j;
@@ -156,17 +163,24 @@ int main(){
     struct Spars spars_matrix1, spars_matrix2;
 
     spars_matrix1 = init_spars();
+    print_matrix(spars_matrix1);
+
     spars_matrix2 = init_spars();
+    print_matrix(spars_matrix2);
 
+    bubble_sort_matrix(spars_matrix1, "row");
     print_matrix(spars_matrix1);
+    bubble_sort_matrix(spars_matrix2, "row");
     print_matrix(spars_matrix2);
     print_seperator();
 
-    bubble_sort_matrix(spars_matrix1);
+    /*
+    bubble_sort_matrix(spars_matrix1, "col");
     print_matrix(spars_matrix1);
-    bubble_sort_matrix(spars_matrix2);
+    bubble_sort_matrix(spars_matrix2, "col");
     print_matrix(spars_matrix2);
     print_seperator();
+    */
 
     return 0;
 }

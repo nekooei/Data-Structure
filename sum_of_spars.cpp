@@ -244,7 +244,8 @@ struct Spars add_spars(struct Spars spars_matrix1, struct Spars spars_matrix2)
     return SOSpars;
 }
 
-int main(){
+int main()
+{
 
     struct Spars spars_matrix1, spars_matrix2;
 

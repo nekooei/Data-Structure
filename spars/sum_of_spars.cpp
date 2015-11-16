@@ -8,7 +8,6 @@
 
 #include <iostream>
 #define nDashes 15          // This Macro define for number of dashes in single line
-///milad columns ma'ni sotoon ha mide dar soorati k inja karbordesh te'dade setoon hast.  pishnahade man ine bezari nCols.  agar editaye badish ham anjam bedi mamnoon misham
 #define columns 3          // all of spars_matrix have 3 columns
 
 using namespace std;
@@ -240,7 +239,6 @@ struct Spars add_spars(struct Spars spars_matrix1, struct Spars spars_matrix2)
             i++;
             j++;
         }
-        //k++;
     }
     //print_matrix(SOSpars);
     return SOSpars;

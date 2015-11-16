@@ -7,7 +7,6 @@
  */
 
 #include <iostream>
-
 #define nDashes 15          // This Macro define for number of dashes in single line
 ///milad columns ma'ni sotoon ha mide dar soorati k inja karbordesh te'dade setoon hast.  pishnahade man ine bezari nCols.  agar editaye badish ham anjam bedi mamnoon misham
 #define columns 3          // all of spars_matrix have 3 columns
@@ -37,7 +36,7 @@ void print_matrix(struct Spars spars_matrix){
     int nRows = spars_matrix.header[2];
 
     int i=0, j=0;
-
+    cout << "nRows : " << nRows << endl;
     for(i = 0; i < nRows; i++){
         for(j = 0; j < 3; j++){
             cout << spars_matrix.matrix[i][j] << '\t';
@@ -216,31 +215,34 @@ struct Spars add_spars(struct Spars spars_matrix1, struct Spars spars_matrix2)
     SOSpars.header[1] = spars_matrix1.header[1];
     int nRows = spars_matrix1.header[2] + spars_matrix2.header[2] - get_shared_len(spars_matrix1, spars_matrix2);
     SOSpars.header[2] = nRows;
-    SOSpars.matrix = new int * [nRows];
-
+    SOSpars.matrix = new int *[nRows];
     int i = 0, j = 0, k = 0;
     int cmp = 0;
 
+
     for(k = 0; k != nRows; k++){
-        SOSpars.matrix[k] = new int [3];
+        SOSpars.matrix[k] = new int[3];
         cmp = cmp_coordinates(spars_matrix1.matrix[i], spars_matrix2.matrix[j]);
         if(cmp == -1){
-            copy_coordinate(SOSpars.matrix[k], spars_matrix1.matrix[i]);
+            copy_coordinate(spars_matrix1.matrix[i],SOSpars.matrix[k]);
+            //copy_coordinate(SOSpars.matrix[k], spars_matrix1.matrix[i]);
             i++;
         }
         else if(cmp == 1){
-            copy_coordinate(SOSpars.matrix[k], spars_matrix2.matrix[j]);
+            //copy_coordinate(SOSpars.matrix[k], spars_matrix2.matrix[j]);
+            copy_coordinate(spars_matrix2.matrix[j],SOSpars.matrix[k]);
             j++;
         }
         else{
-            copy_coordinate(SOSpars.matrix[k], spars_matrix1.matrix[i]);
+            //copy_coordinate(SOSpars.matrix[k], spars_matrix1.matrix[i]);
+            copy_coordinate(spars_matrix1.matrix[i],SOSpars.matrix[k]);
             SOSpars.matrix[k][2] += spars_matrix2.matrix[j][2];
             i++;
             j++;
         }
-        k++;
+        //k++;
     }
-
+    //print_matrix(SOSpars);
     return SOSpars;
 }
 

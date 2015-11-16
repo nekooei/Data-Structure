@@ -200,9 +200,9 @@ void copy_coordinate(int * src, int * dest)
 struct Spars add_spars(struct Spars spars_matrix1, struct Spars spars_matrix2)
 {
     bubble_sort_matrix(spars_matrix1);
-    //print_matrix(spars_matrix1);
+    print_matrix(spars_matrix1);
     bubble_sort_matrix(spars_matrix2);
-    //print_matrix(spars_matrix2);
+    print_matrix(spars_matrix2);
 
     struct Spars SOSpars;   //sum of spars.
 
@@ -213,35 +213,79 @@ struct Spars add_spars(struct Spars spars_matrix1, struct Spars spars_matrix2)
 
     SOSpars.header[0] = spars_matrix1.header[0];
     SOSpars.header[1] = spars_matrix1.header[1];
-    int nRows = spars_matrix1.header[2] + spars_matrix2.header[2] - get_shared_len(spars_matrix1, spars_matrix2);
+    int shared_len = get_shared_len(spars_matrix1, spars_matrix2);
+    //cout << "Shared len is: " << shared_len << endl;
+    int nRows = spars_matrix1.header[2] + spars_matrix2.header[2] - shared_len;
     SOSpars.header[2] = nRows;
-    SOSpars.matrix = new int *[nRows];
+    SOSpars.matrix = new int * [nRows];
+    //cout << "nRows is: " << nRows << endl;
     int i = 0, j = 0, k = 0;
     int cmp = 0;
 
+    /*
+    inja ya bayad yek satre inf be akhare marisi k zoodtar tamoom mishe ezafe beshe dar python in kar ba l.append('inf') anjam mishe
+    amma dar c++ agar bekhaym hamcin kari konim az paye code be ham mirize
+    in ghat'e code ro negah dashtim ta motevajehe eshtebah beshin
+    va bebinin k vaghti mikhayn ba yek zaban code bezanin bayad dar hamoon zaban fekr konin!
 
     for(k = 0; k != nRows; k++){
-        SOSpars.matrix[k] = new int[3];
+        SOSpars.matrix[k] = new int * [3];
         cmp = cmp_coordinates(spars_matrix1.matrix[i], spars_matrix2.matrix[j]);
         if(cmp == -1){
             copy_coordinate(spars_matrix1.matrix[i],SOSpars.matrix[k]);
-            //copy_coordinate(SOSpars.matrix[k], spars_matrix1.matrix[i]);
             i++;
         }
         else if(cmp == 1){
-            //copy_coordinate(SOSpars.matrix[k], spars_matrix2.matrix[j]);
             copy_coordinate(spars_matrix2.matrix[j],SOSpars.matrix[k]);
             j++;
         }
         else{
-            //copy_coordinate(SOSpars.matrix[k], spars_matrix1.matrix[i]);
             copy_coordinate(spars_matrix1.matrix[i],SOSpars.matrix[k]);
             SOSpars.matrix[k][2] += spars_matrix2.matrix[j][2];
             i++;
             j++;
         }
-        //k++;
     }
+    */
+
+    while((i < spars_matrix1.header[2]) and (j < spars_matrix2.header[2])){
+        //cout << "we are in while" << endl;
+        SOSpars.matrix[k] = new int [columns];
+        cmp = cmp_coordinates(spars_matrix1.matrix[i], spars_matrix2.matrix[j]);
+        cout << i << ' ' << j << ' ' << k << endl;
+        if(cmp == -1){
+            copy_coordinate(spars_matrix1.matrix[i],SOSpars.matrix[k]);
+            i++;
+        }
+        else if(cmp == 1){
+            copy_coordinate(spars_matrix2.matrix[j],SOSpars.matrix[k]);
+            j++;
+        }
+        else{
+            copy_coordinate(spars_matrix1.matrix[i],SOSpars.matrix[k]);
+            SOSpars.matrix[k][2] += spars_matrix2.matrix[j][2];
+            i++;
+            j++;
+        }
+        k++;
+    }
+
+    while(i < spars_matrix1.header[2]){
+        SOSpars.matrix[k] = new int [columns];
+        copy_coordinate(spars_matrix1.matrix[i],SOSpars.matrix[k]);
+        i++;
+        k++;
+    }
+
+    while(j < spars_matrix2.header[2]){
+        SOSpars.matrix[k] = new int [columns];
+        copy_coordinate(spars_matrix2.matrix[j],SOSpars.matrix[k]);
+        j++;
+        k++;
+    }
+
+    //cout << SOSpars.matrix[k-1][0] << ' ' << SOSpars.matrix[k-1][1] << ' ' << SOSpars.matrix[k-1][2] << endl;
+
     //print_matrix(SOSpars);
     return SOSpars;
 }

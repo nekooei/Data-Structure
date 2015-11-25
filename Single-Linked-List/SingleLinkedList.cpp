@@ -1,4 +1,8 @@
-// written by "Milad Nekooei
+/*
+ * this code is for Teaching single_linked_list in C++
+ * author :  Milad Nekooei < mi.Nekooei@gmail.com>
+ * date : 26 Nov 2015
+ */
 
 #include<iostream>
 #include<cstdio>
@@ -382,4 +386,3 @@ void single_llist::display()
     }
     cout<<"NULL"<<endl;
 }
-
